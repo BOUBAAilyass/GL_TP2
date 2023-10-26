@@ -15,7 +15,7 @@ public class StatementPrinter {
     
 
 
-    double totalAmount = 0;
+    int totalAmount = 0;
     double volumeCredits = 0;
     
     StringWriter writer = new StringWriter();
