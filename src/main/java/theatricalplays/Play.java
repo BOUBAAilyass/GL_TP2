@@ -3,10 +3,14 @@ package theatricalplays;
 public class Play {
 
   public String name;
-  public String type;
+  public PlayType type;
 
-  public Play(String name, String type) {
+  public Play(String name, PlayType type) {
     this.name = name;
     this.type = type;
+  }
+  public enum PlayType {
+    TRAGEDY,
+    COMEDY
   }
 }
