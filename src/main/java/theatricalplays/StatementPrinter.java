@@ -8,14 +8,15 @@ import java.util.Map;
 
 public class StatementPrinter {
     public static final String TRAGEDY= "tragedy";
+
     public static final String COMEDY = "comedy";
 
   public String print(Invoice invoice, Map<String, Play> plays) {
     
 
 
-    int totalAmount = 0;
-    int volumeCredits = 0;
+    double totalAmount = 0;
+    double volumeCredits = 0;
     
     StringWriter writer = new StringWriter();
     PrintWriter printer = new PrintWriter(writer);
@@ -25,7 +26,7 @@ public class StatementPrinter {
     
     for (Performance perf : invoice.performances) {
       Play play = plays.get(perf.playID);
-      int thisAmount = 0;
+      double thisAmount = 0;
     // calculate amount 
       switch (play.type) {
         // calculate amount for a tragedy
@@ -60,7 +61,7 @@ public class StatementPrinter {
     printer.println(String.format("Amount owed is %s", frmt.format(totalAmount / 100)));
     printer.println(String.format("You earned %s credits", volumeCredits));
     String result = writer.toString();
-    return result;
+     return result;
   }
 
 }
