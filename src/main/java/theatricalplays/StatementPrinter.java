@@ -7,14 +7,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class StatementPrinter {
-    public static final String TRAGEDY= "tragedy";
-
-    public static final String COMEDY = "comedy";
 
   public String print(Invoice invoice, Map<String, Play> plays) {
     
-
-
     double totalAmount = 0;
     double volumeCredits = 0;
     
@@ -26,33 +21,14 @@ public class StatementPrinter {
     
     for (Performance perf : invoice.performances) {
       Play play = plays.get(perf.playID);
-      double thisAmount = 0;
     // calculate amount 
-      switch (play.type) {
-        // calculate amount for a tragedy
-        case TRAGEDY:
-          thisAmount = 40000;
-          if (perf.audience > 30) {
-            thisAmount += 1000 * (perf.audience - 30);
-          }
-          break;
-        // calculate amount for a comedy
-        case COMEDY:
-          thisAmount = 30000;
-          if (perf.audience > 20) {
-            thisAmount += 10000 + 500 * (perf.audience - 20);
-          }
-          thisAmount += 300 * perf.audience;
-          break;
-        // throw error for unknown type
-        default:
-          throw new Error("unknown type: ${play.type}");
-      }
-
+      
+      Calcul calcul = new Calcul();
+      double thisAmount = calcul.calculeAmount(play, perf);
       // add volume credits
       volumeCredits += Math.max(perf.audience - 30, 0);
       // add extra credit for every ten comedy attendees
-      if ("comedy".equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
+      if (Play.PlayType.COMEDY.equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
 
       // print line for this order
       printer.println(String.format("  %s: %s (%s seats)", play.name, frmt.format(thisAmount / 100), perf.audience));
