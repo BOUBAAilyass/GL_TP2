@@ -9,7 +9,8 @@ import java.util.Map;
 public class StatementPrinter {
 
   public String print(Invoice invoice, Map<String, Play> plays) {
-    
+
+
     double totalAmount = 0;
     double volumeCredits = 0;
     
