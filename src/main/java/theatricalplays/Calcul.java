@@ -1,5 +1,7 @@
 package theatricalplays;
 
+import java.util.Map;
+
 public class Calcul {
 
     public static final String TRAGEDY= "tragedy";
@@ -30,5 +32,31 @@ public class Calcul {
           return thisAmount;
     }
 
+public int calculeTotalAmount(Invoice invoice,Map<String, Play> plays ) {
+    int totalAmount = 0;
+    for (Performance perf : invoice.performances) {
+        Play play = plays.get(perf.playID);
+        Calcul calcul = new Calcul();
+        totalAmount += calcul.calculeAmount(play, perf);
+      }
+      return totalAmount;
     
+}
+// calculate volume credits for a performance not recursive
+public int calculeVolumeCredits(Invoice invoice, Map<String, Play> plays) {
+    int volumeCredits = 0;
+    for (Performance perf : invoice.performances) {
+        Play play = plays.get(perf.playID);
+        volumeCredits += Math.max(perf.audience - 30, 0);
+        // add extra credit for every ten comedy attendees
+        if (Play.PlayType.COMEDY.equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
+      }
+      return volumeCredits;
+
+    
+
+
+    
+}
+
 }
