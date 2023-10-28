@@ -2,13 +2,12 @@ package theatricalplays;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
-//import static org.approvaltests.Approvals.verify;
-import static org.approvaltests.Approvals.verifyHtml;;
+import static org.approvaltests.Approvals.verify;
 
 public class StatementPrinterTests {
 
     @Test
-    void exampleStatement() {
+    void exampleStatementText() {
         Map<String, Play> plays = Map.of(
                 "hamlet",  new Play("Hamlet", Play.PlayType.TRAGEDY),
                 "as-like", new Play("As You Like It", Play.PlayType.COMEDY),
@@ -20,9 +19,29 @@ public class StatementPrinterTests {
                 new Performance("othello", 40)));
 
         StatementPrinter statementPrinter = new StatementPrinter();
-        var result = statementPrinter.toHTML(invoice, plays);
+        var result = statementPrinter.print(invoice, plays, "text");
 
-        verifyHtml(result);
+
+        verify(result);
+    }
+    
+    @Test
+    void exampleStatementHTML() {
+        Map<String, Play> plays = Map.of(
+                "hamlet",  new Play("Hamlet", Play.PlayType.TRAGEDY),
+                "as-like", new Play("As You Like It", Play.PlayType.COMEDY),
+                "othello", new Play("Othello", Play.PlayType.TRAGEDY)); 
+
+        Invoice invoice = new Invoice("BigCo", List.of(
+                new Performance("hamlet", 55),
+                new Performance("as-like", 35),
+                new Performance("othello", 40)));
+
+        StatementPrinter statementPrinter = new StatementPrinter();
+        var result = statementPrinter.print(invoice, plays, "html");
+        
+
+        verify(result);
     }
     
 }

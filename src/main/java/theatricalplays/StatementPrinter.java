@@ -1,44 +1,19 @@
 package theatricalplays;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 
 public class StatementPrinter {
 
-  public String print(Invoice invoice, Map<String, Play> plays) {
+  public String print(Invoice invoice, Map<String, Play> plays, String format) {
 
-
-    double totalAmount = 0;
-    double volumeCredits = 0;
-    
-    StringWriter writer = new StringWriter();
-    PrintWriter printer = new PrintWriter(writer);
-    printer.println(String.format("Statement for %s", invoice.customer));
-    
-    NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
-    
-    for (Performance perf : invoice.performances) {
-      Play play = plays.get(perf.playID);
-    // calculate amount 
-      
-      Calcul calcul = new Calcul();
-      double thisAmount = calcul.calculeAmount(play, perf);
-      // add volume credits
-      volumeCredits += Math.max(perf.audience - 30, 0);
-      // add extra credit for every ten comedy attendees
-      if (Play.PlayType.COMEDY.equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
-
-      // print line for this order
-      printer.println(String.format("  %s: %s (%s seats)", play.name, frmt.format(thisAmount / 100), perf.audience));
-      totalAmount += thisAmount;
-    }
-    printer.println(String.format("Amount owed is %s", frmt.format(totalAmount / 100)));
-    printer.println(String.format("You earned %s credits", volumeCredits));
-    String result = writer.toString();
+     if(format.equals("text"))
+    return toText(invoice, plays);
+  else
      return toHTML(invoice, plays);
+
   }
   public String toHTML(Invoice invoice, Map<String, Play> plays) {
     Calcul calcul = new Calcul();
@@ -93,6 +68,21 @@ public class StatementPrinter {
     return rslt.toString();
 }
 
+public String toText(Invoice invoice, Map<String, Play> plays) {
+    Calcul calcul = new Calcul();
+    String result = String.format("Statement for %s\n", invoice.customer);
+    NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
+    StringBuffer rslt = new StringBuffer(result);
+    
+    for (Performance perf : invoice.performances) {
 
+        Play play = plays.get(perf.playID);
+        rslt.append(String.format("  %s: %s (%s seats)\n", play.name, frmt.format(calcul.calculeAmount(play, perf) / 100), perf.audience));
+    }
+    
+    rslt.append(String.format("Amount owed is %s\n", frmt.format( calcul.calculeTotalAmount(invoice, plays) / 100)));
+    rslt.append(String.format("You earned %s credits\n", frmt.format(calcul.calculeVolumeCredits( invoice,plays))));
+            
+    return rslt.toString();
 
-}
+}}
