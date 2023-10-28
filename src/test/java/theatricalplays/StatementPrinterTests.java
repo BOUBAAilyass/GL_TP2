@@ -3,15 +3,16 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 import static org.approvaltests.Approvals.verify;
+import static org.approvaltests.Approvals.verifyHtml;
 
 public class StatementPrinterTests {
 
     @Test
     void exampleStatementText() {
-        Map<String, Play> plays = Map.of(
-                "hamlet",  new Play("Hamlet", Play.PlayType.TRAGEDY),
-                "as-like", new Play("As You Like It", Play.PlayType.COMEDY),
-                "othello", new Play("Othello", Play.PlayType.TRAGEDY)); 
+        Map<String, Representation> representations = Map.of(
+        "hamlet",  new Tragedy("Hamlet", 55),
+        "as-like", new Comedy("As You Like It", 35),
+        "othello", new Tragedy("Othello", 40));
 
         Invoice invoice = new Invoice("BigCo", List.of(
                 new Performance("hamlet", 55),
@@ -19,29 +20,27 @@ public class StatementPrinterTests {
                 new Performance("othello", 40)));
 
         StatementPrinter statementPrinter = new StatementPrinter();
-        var result = statementPrinter.print(invoice, plays, "text");
-
-
+        var result = statementPrinter.toText(invoice, representations);
         verify(result);
     }
     
     @Test
     void exampleStatementHTML() {
-        Map<String, Play> plays = Map.of(
-                "hamlet",  new Play("Hamlet", Play.PlayType.TRAGEDY),
-                "as-like", new Play("As You Like It", Play.PlayType.COMEDY),
-                "othello", new Play("Othello", Play.PlayType.TRAGEDY)); 
-
+        Map<String, Representation> representations = Map.of(
+        "hamlet",  new Tragedy("Hamlet", 55),
+        "as-like", new Comedy("As You Like It", 35),
+        "othello", new Tragedy("Othello", 40));
+        
         Invoice invoice = new Invoice("BigCo", List.of(
                 new Performance("hamlet", 55),
                 new Performance("as-like", 35),
                 new Performance("othello", 40)));
 
         StatementPrinter statementPrinter = new StatementPrinter();
-        var result = statementPrinter.print(invoice, plays, "html");
+        var result = statementPrinter.toHTML(invoice, representations);
         
 
-        verify(result);
+        verifyHtml(result);
     }
     
 }
