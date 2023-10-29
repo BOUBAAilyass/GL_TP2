@@ -9,12 +9,20 @@ public class Calcul {
       return representation.calculateAmount();
   }
 
-  public int calculeTotalAmount(Invoice invoice, Map<String, Representation> representations) {
+  public int calculeTotalAmount(Invoice invoice, Map<String, Representation> representations,Customer customer) {
     int totalAmount = 0;
     for (Performance perf : invoice.performances) {
         Representation representation = representations.get(perf.playID);
         totalAmount += calculeAmount(representation);
+
     }
+    int customerPoints = customer.getPoints();
+
+
+    if (customerPoints >150){
+    customer.setPoints(customerPoints - 150);
+    totalAmount -=  1500;  
+  }
     return totalAmount;
 }
 
