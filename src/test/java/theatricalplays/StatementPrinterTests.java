@@ -14,7 +14,10 @@ public class StatementPrinterTests {
         "as-like", new Comedy("As You Like It", 35),
         "othello", new Tragedy("Othello", 40));
 
-        Invoice invoice = new Invoice("BigCo", List.of(
+        Customer customer = new Customer("BigCo", 1, 148);
+
+
+        Invoice invoice = new Invoice(customer, List.of(
                 new Performance("hamlet", 55),
                 new Performance("as-like", 35),
                 new Performance("othello", 40)));
@@ -31,7 +34,10 @@ public class StatementPrinterTests {
         "as-like", new Comedy("As You Like It", 35),
         "othello", new Tragedy("Othello", 40));
         
-        Invoice invoice = new Invoice("BigCo", List.of(
+        Customer customer = new Customer("BigCo", 1, 148);
+
+
+        Invoice invoice = new Invoice(customer, List.of(
                 new Performance("hamlet", 55),
                 new Performance("as-like", 35),
                 new Performance("othello", 40)));
