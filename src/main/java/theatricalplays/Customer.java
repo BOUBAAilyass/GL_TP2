@@ -11,5 +11,23 @@ public class Customer {
         this.points = points;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getNumClient() {
+        return numClient;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+
 
 }

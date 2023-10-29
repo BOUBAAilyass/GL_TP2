@@ -6,16 +6,16 @@ import static org.approvaltests.Approvals.verify;
 import static org.approvaltests.Approvals.verifyHtml;
 
 public class StatementPrinterTests {
-
+ 
+ 
+    Customer customer = new Customer("BigCo", 1, 200);
+  
     @Test
     void exampleStatementText() {
         Map<String, Representation> representations = Map.of(
-        "hamlet",  new Tragedy("Hamlet", 55),
-        "as-like", new Comedy("As You Like It", 35),
-        "othello", new Tragedy("Othello", 40));
-
-        Customer customer = new Customer("BigCo", 1, 148);
-
+        "hamlet",  new Tragedy("Hamlet", 55, customer),
+        "as-like", new Comedy("As You Like It", 35, customer),
+        "othello", new Tragedy("Othello", 40, customer));
 
         Invoice invoice = new Invoice(customer, List.of(
                 new Performance("hamlet", 55),
@@ -30,11 +30,10 @@ public class StatementPrinterTests {
     @Test
     void exampleStatementHTML() {
         Map<String, Representation> representations = Map.of(
-        "hamlet",  new Tragedy("Hamlet", 55),
-        "as-like", new Comedy("As You Like It", 35),
-        "othello", new Tragedy("Othello", 40));
+        "hamlet",  new Tragedy("Hamlet", 55, customer),
+        "as-like", new Comedy("As You Like It", 35, customer),
+        "othello", new Tragedy("Othello", 40, customer));
         
-        Customer customer = new Customer("BigCo", 1, 148);
 
 
         Invoice invoice = new Invoice(customer, List.of(
@@ -44,7 +43,7 @@ public class StatementPrinterTests {
 
         StatementPrinter statementPrinter = new StatementPrinter();
         var result = statementPrinter.toHTML(invoice, representations);
-        
+    
 
         verifyHtml(result);
     }
