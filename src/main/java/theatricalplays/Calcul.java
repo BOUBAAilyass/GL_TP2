@@ -4,12 +4,22 @@ import java.util.Map;
 
 public class Calcul {
 
+  public Invoice invoice;
+  public Map<String, Representation> representations;
+  public Customer customer;
+
+Calcul(Invoice invoice, Map<String, Representation> representations, Customer customer){
+  this.invoice = invoice;
+  this.representations = representations;
+  this.customer = customer;
+}
+
 
     public double calculeAmount(Representation representation) {
       return representation.calculateAmount();
   }
 
-  public int calculeTotalAmount(Invoice invoice, Map<String, Representation> representations,Customer customer) {
+  public int calculeTotalAmount() {
     int totalAmount = 0;
     for (Performance perf : invoice.performances) {
         Representation representation = representations.get(perf.playID);
@@ -27,7 +37,7 @@ public class Calcul {
 }
 
 // calculate volume credits for a performance not recursive
-public int calculeVolumeCredits(Invoice invoice, Map<String, Representation> representations) {
+public int calculeVolumeCredits() {
   int volumeCredits = 0;
   for (Performance perf : invoice.performances) {
       Representation representation = representations.get(perf.playID);
@@ -36,6 +46,8 @@ public int calculeVolumeCredits(Invoice invoice, Map<String, Representation> rep
           volumeCredits += Math.floor(perf.audience / 5);
       }
   }
+
+  customer.setPoints(customer.getPoints()+volumeCredits);
   return volumeCredits;
 }
 

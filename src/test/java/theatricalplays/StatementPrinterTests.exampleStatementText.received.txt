@@ -3,5 +3,5 @@ Statement for BigCo
   As You Like It: $580.00 (35 seats)
   Othello: $500.00 (40 seats)
 Amount owed is $1,715.00
-You earned $47.00 credits
-Points left $97.00 credits
+You earned 47 credits
+Points left 97 credits
